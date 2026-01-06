@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 
 public class GetOrderSummariesQueryHandler : IQueryHandler<GetOrderSummariesQuery, List<OrderSummaryDto>>{
-    private readonly AppDbContext _db;
-    public GetOrderSummariesQueryHandler(AppDbContext db)
+    private readonly ReadDbContext _db;
+    public GetOrderSummariesQueryHandler(ReadDbContext db)
     {
         _db = db;
     }

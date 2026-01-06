@@ -2,10 +2,10 @@ using FluentValidation;
 
 public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand, OrderDto>
 {
-    private readonly AppDbContext _db;
+    private readonly WriteDbContext _db;
     private readonly IValidator<CreateOrderCommand> _validator;
     private readonly IEventPublisher _eventPublisher;
-    public CreateOrderCommandHandler(AppDbContext db, IValidator<CreateOrderCommand> validator, IEventPublisher eventPublisher)
+    public CreateOrderCommandHandler(WriteDbContext db, IValidator<CreateOrderCommand> validator, IEventPublisher eventPublisher)
     {
         _db = db;
         _validator = validator;

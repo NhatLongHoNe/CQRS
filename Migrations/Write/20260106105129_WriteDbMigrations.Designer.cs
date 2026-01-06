@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace OrdersAPI.Migrations
+namespace OrdersAPI.Migrations.Write
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20260105133058_InitialMigration")]
-    partial class InitialMigration
+    [DbContext(typeof(WriteDbContext))]
+    [Migration("20260106105129_WriteDbMigrations")]
+    partial class WriteDbMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

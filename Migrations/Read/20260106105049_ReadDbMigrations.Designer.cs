@@ -7,11 +7,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace OrdersAPI.Migrations
+namespace OrdersAPI.Migrations.Read
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20260105133058_InitialMigration")]
-    partial class InitialMigration
+    [DbContext(typeof(ReadDbContext))]
+    [Migration("20260106105049_ReadDbMigrations")]
+    partial class ReadDbMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
