@@ -1,0 +1,26 @@
+meta {
+  name: CREATE ORDER
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://localhost:5106/api/Orders
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "FirstName": "Dray",
+    "LastName": "OP",
+    "Status": "PAID",
+    "CreatedAt": "2024-10-07",
+    "TotalCost": 121.0
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
