@@ -1,12 +1,20 @@
+using FluentValidation;
+
 public class CreateOrderCommandHandler : ICommandHandler<CreateOrderCommand, OrderDto>
 {
     private readonly AppDbContext _db;
-    public CreateOrderCommandHandler(AppDbContext db)
+    private readonly IValidator<CreateOrderCommand> _validator;
+    public CreateOrderCommandHandler(AppDbContext db, IValidator<CreateOrderCommand> validator)
     {
         _db = db;
+        _validator = validator;
     }
     public async Task<OrderDto> HandleAsync(CreateOrderCommand command)
     {
+        var validationResult = await _validator.ValidateAsync(command);
+        if (!validationResult.IsValid) {
+            throw new ValidationException(validationResult.Errors);
+        }
         var order = new Order
         {
             FirstName = command.FirstName,

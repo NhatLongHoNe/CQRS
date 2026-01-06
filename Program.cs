@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +8,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 builder.Services.AddScoped<ICommandHandler<CreateOrderCommand, OrderDto>, CreateOrderCommandHandler>();
 builder.Services.AddScoped<IQueryHandler<GetOrderByIdQuery, OrderDto>, GetOrderByIdQueryHandler>();
+builder.Services.AddScoped<IValidator<CreateOrderCommand>, CreateOrderCommandValidator>();
 
 var app = builder.Build();
 
@@ -14,11 +16,18 @@ app.MapPost("/api/orders", async (ICommandHandler<CreateOrderCommand, OrderDto> 
     // db.Orders.Add(order);
     // db.SaveChanges();
     // var order = await CreateOrderCommandHandler.Handle(command, db);
-    var order = await handler.HandleAsync(command);
-    if (order == null) {
-        return Results.BadRequest();
+    try {
+        var order = await handler.HandleAsync(command);
+        if (order == null) {
+            return Results.BadRequest();
+        }
+
+        return Results.Created($"/api/orders/{order.Id}", order);
+    }catch (ValidationException ex) {
+        var errors = ex.Errors.Select(e => new { e.PropertyName, e.ErrorMessage });
+        return Results.BadRequest(errors);
     }
-    return Results.Created($"/api/orders/{order.Id}", order);
+    
 });
 app.MapGet("/api/orders/{id}", async (IQueryHandler<GetOrderByIdQuery, OrderDto> handler, int id) => {
     // var order = db.Orders.Find(id);
