@@ -14,7 +14,9 @@ builder.Services.AddScoped<IQueryHandler<GetOrderSummariesQuery, List<OrderSumma
 
 builder.Services.AddScoped<IValidator<CreateOrderCommand>, CreateOrderCommandValidator>();
 
-builder.Services.AddSingleton<IEventPublisher, ConsoleEventPublisher>();
+// builder.Services.AddSingleton<IEventPublisher, ConsoleEventPublisher>();
+builder.Services.AddSingleton<IEventPublisher, InProcessEventPublisher>();
+builder.Services.AddScoped<IEventHandler<OrderCreatedEvent>, OrderCreatedProjectionHandler>();
 
 var app = builder.Build();
 
