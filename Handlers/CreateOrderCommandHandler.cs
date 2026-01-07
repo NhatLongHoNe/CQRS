@@ -35,24 +35,10 @@ public class CreateOrderCommandHandler : IRequestHandler<CreateOrderCommand, Ord
             CreatedAt = DateTime.UtcNow
         };
         await _db.Orders.AddAsync(order);
-        await _db.SaveChangesAsync();
+        await _db.SaveChangesAsync(cancellationToken);
 
         await _mediator.Publish(new OrderCreatedEvent(order.Id, order.FirstName, order.LastName, order.TotalCost));
 
         return new OrderDto(order.Id, order.FirstName, order.LastName, order.Status, order.CreatedAt, order.TotalCost);
     }
-    // public static async Task<Order> Handle(CreateOrderCommand command, AppDbContext db)
-    // {
-    //     var order = new Order
-    //     {
-    //         FirstName = command.FirstName,
-    //         LastName = command.LastName,
-    //         Status = command.Status,
-    //         TotalCost = command.TotalCost,
-    //         CreatedAt = DateTime.UtcNow
-    //     };
-    //     await db.Orders.AddAsync(order);
-    //     await db.SaveChangesAsync();
-    //     return order;
-    // }
 }
